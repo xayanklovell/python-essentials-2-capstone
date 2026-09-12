@@ -47,3 +47,8 @@ def pass_rate(students):
         return 0.0
 
     return passed / total * 100
+
+def passing_students(students):
+    for student in students:
+        if student.has_passed():
+            yield student
