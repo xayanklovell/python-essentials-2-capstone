@@ -22,16 +22,41 @@ def generate_data_file():
 
     return "data/students.txt"
 
-def load_students():
+def load_students(file_path="data/students.txt"):
     students = []
 
-    with open("data/students.txt", "r", encoding="utf-8") as data_file:
-        for line in data_file:
-            name, score = line.strip().split(",")
+    try:
+        with open(file_path, "r", encoding="utf-8") as data_file:
+            for line_number, line in enumerate(data_file, start=1):
+                if not line.strip():
+                    continue
 
-            name = " ".join(name.strip().lower().split()).title()
-            score = int(score.strip())
+                try:
+                    fields = line.strip().split(",")
 
-            students.append((name, score))
+                    if len(fields) != 2:
+                        raise ValueError("expected one name and one score")
+
+                    name = " ".join(fields[0].strip().lower().split()).title()
+
+                    if not name:
+                        raise ValueError("the name is empty")
+
+                    score = int(fields[1].strip())
+
+                    if not 0 <= score <= 100:
+                        raise ValueError("score must be between 0 and 100")
+
+                    students.append((name, score))
+
+                except ValueError as error:
+                    print(f"Skipping line {line_number}: {error}")
+
+    except FileNotFoundError:
+        print("Student data file not found. Generate data first.")
+
+    except (OSError, UnicodeError) as error:
+        print(f"Could not read student data: {error}")
+        return []
 
     return students
