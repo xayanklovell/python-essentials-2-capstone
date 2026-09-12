@@ -1,5 +1,6 @@
 import os 
 import random
+from datetime import datetime
 
 def generate_data_file():
     os.makedirs("data", exist_ok=True)
@@ -60,3 +61,21 @@ def load_students(file_path="data/students.txt"):
         return []
 
     return students
+
+def export_report(text):
+    os.makedirs("data", exist_ok=True)
+
+    with open("data/report.txt", "w", encoding="utf-8") as report_file:
+        report_file.write(text)
+
+    return "data/report.txt"
+
+
+def log_event(message):
+    os.makedirs("data", exist_ok=True)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open("data/activity.log", "a", encoding="utf-8") as log_file:
+        log_file.write(f"[{timestamp}] {message}\n")
+
+    return "data/activity.log"
