@@ -52,3 +52,14 @@ def passing_students(students):
     for student in students:
         if student.has_passed():
             yield student
+
+def make_grader(pass_mark):
+    if not 0 <= pass_mark <= 100:
+        raise ValueError("Pass mark must be between 0 and 100.")
+
+    def grade(score):
+        if score >= pass_mark:
+            return "Pass"
+        return "Fail"
+
+    return grade       
