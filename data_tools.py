@@ -21,3 +21,17 @@ def generate_data_file():
             data_file.write(f"{name} ,  {score}  \n")
 
     return "data/students.txt"
+
+def load_students():
+    students = []
+
+    with open("data/students.txt", "r", encoding="utf-8") as data_file:
+        for line in data_file:
+            name, score = line.strip().split(",")
+
+            name = " ".join(name.strip().lower().split()).title()
+            score = int(score.strip())
+
+            students.append((name, score))
+
+    return students
